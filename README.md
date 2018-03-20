@@ -9,4 +9,4 @@ The script operates on a csv of transactions. Each transaction must contain the 
 
 Once your transactions are in order, save them as `transactions.csv` and run `coffee fifo.coffee` to calculate your short-term and long-term capital gains. These will be exported to `short_gains.csv` and `long_gains.csv`, respectively. The results are in the format required for IRS Form 8949.
 
-DISCLAIMER: I am not an account or a tax attorney. The codes provided herein are provided strictly AS IS and I represent no warranty for their accuracy or the resulting capital gains calculations. If you choose to use this code to determine your capital gains/losses, you do so at your own risk and indemnify me from any legal action whatsoever.
+DISCLAIMER: I am not an accountant or a tax attorney. The codes provided herein are provided strictly AS IS and I represent no warranty for their accuracy or the resulting capital gains calculations. If you choose to use this code to determine your capital gains/losses, you do so at your own risk and indemnify me from any legal action whatsoever.
