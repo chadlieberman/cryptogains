@@ -19,10 +19,7 @@ csvToArray = require './csv-to-array'
 roundToDollars = (num) ->
     Math.round(100*num)/100
 
-#transactions = require './fake-transactions'
 transactions = csvToArray 'transactions.csv'
-transactions = transactions.slice(0, 100)
-console.log 'transactions =', transactions
 
 taxEventsToCsv = (tax_events, filename, type) ->
     quote = (s) -> "\"#{s}\""
@@ -59,9 +56,6 @@ accounts =
 
 tax_events = []
 
-sorted_transactions = transactions.sort (a, b) -> Date.parse(a.datetime) - Date.parse(b.datetime)
-console.log 'sorted_transactions =', sorted_transactions
-
 # Process transactions
 transactions
     .sort (a, b) ->
@@ -77,13 +71,11 @@ transactions
             destination_quantity,
             usd_value
         } = transaction
-        console.log 'transaction =', transaction
         return if origin_asset == destination_asset and origin_wallet != 'External' and destination_wallet != 'External'
         if origin_wallet != 'N/A'
             deposits = accounts[origin_asset].withdraw datetime, origin_quantity, usd_value
         accounts[destination_asset].deposit datetime, destination_quantity, usd_value
         if origin_asset != 'USD' and deposits?.length
-            console.log 'deposits =', deposits
             for deposit in deposits
                 proceeds = roundToDollars(usd_value * (deposit.quantity / origin_quantity))
                 cost_basis = roundToDollars(deposit.usd_value)
@@ -96,10 +88,13 @@ transactions
                     proceeds: proceeds
                     gain: roundToDollars(proceeds - cost_basis)
 
+# Show results in terminal
+console.log 'Accounts:'
 Object.keys(accounts).map (asset) ->
     console.log accounts[asset]
-console.log ''
-console.log 'tax_events =', tax_events
+
+console.log 'Tax Events:'
+console.log tax_events
 
 # Print the capital gains/losses entries to CSVs
 taxEventsToCsv tax_events, 'long_gains.csv', 'long'
