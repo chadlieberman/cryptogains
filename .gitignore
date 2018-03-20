@@ -1,0 +1,5 @@
+*.swo
+*.swp
+transactions.csv
+short_gains.csv
+long_gains.csv
